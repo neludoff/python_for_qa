@@ -13,5 +13,10 @@ class Application:
         self.contact = ContactHelper(self)
 
 
+    def open_home_page(self):
+        wd = self.wd
+        wd.get("http://localhost/addressbook/")
+
+
     def destroy(self):
         self.wd.quit()
