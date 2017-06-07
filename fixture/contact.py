@@ -5,7 +5,7 @@ class ContactHelper:
 
     def create(self, Contact):
         wd = self.app.wd
-        self.open_contact_page()
+        self.open_edit_contact_page()
 
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
@@ -21,6 +21,22 @@ class ContactHelper:
         wd.find_element_by_name("email").send_keys(Contact.email)
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
 
-    def open_contact_page(self):
+    def delete_first_contact(self):
+        wd = self.app.wd
+        wd.find_element_by_name("selected[]").click()
+        wd.find_element_by_css_selector("[value=Delete]").click()
+        wd.switch_to_alert().accept()
+
+    def edit_contact(self, Contact):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("[title=Edit]").click()
+        wd.find_element_by_name("firstname").clear()
+        wd.find_element_by_name("firstname").send_keys(Contact.firstname)
+        wd.find_element_by_name("lastname").clear()
+        wd.find_element_by_name("lastname").send_keys(Contact.lastname)
+        wd.find_element_by_css_selector("[value=Update]").click()
+
+
+    def open_edit_contact_page(self):
         wd = self.app.wd
         wd.get("http://localhost/addressbook/edit.php")
