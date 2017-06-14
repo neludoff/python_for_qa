@@ -37,3 +37,7 @@ class ContactHelper:
     def open_edit_contact_page(self):
         wd = self.app.wd
         wd.get("http://localhost/addressbook/edit.php")
+
+    def count(self):
+        wd = self.app.wd
+        return len(wd.find_elements_by_name("selected[]"))
