@@ -5,7 +5,7 @@ class ContactHelper:
 
     def create(self, Contact):
         wd = self.app.wd
-        self.open_edit_contact_page()
+        self.open_add_new_page()
         self.fill_contact_form(Contact)
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
 
@@ -34,9 +34,10 @@ class ContactHelper:
         self.fill_contact_form(new_contact_data)
         wd.find_element_by_css_selector("[value=Update]").click()
 
-    def open_edit_contact_page(self):
+    def open_add_new_page(self):
         wd = self.app.wd
-        wd.get("http://localhost/addressbook/edit.php")
+        if not wd.current_url.endswith("/edit.php"):
+            wd.find_element_by_link_text("add new").click()
 
     def count(self):
         wd = self.app.wd
