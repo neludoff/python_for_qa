@@ -6,20 +6,21 @@ class ContactHelper:
     def create(self, Contact):
         wd = self.app.wd
         self.open_edit_contact_page()
-
-        wd.find_element_by_name("firstname").click()
-        wd.find_element_by_name("firstname").clear()
-        wd.find_element_by_name("firstname").send_keys(Contact.firstname)
-        wd.find_element_by_name("lastname").click()
-        wd.find_element_by_name("lastname").clear()
-        wd.find_element_by_name("lastname").send_keys(Contact.lastname)
-        wd.find_element_by_name("mobile").click()
-        wd.find_element_by_name("mobile").clear()
-        wd.find_element_by_name("mobile").send_keys(Contact.mobile)
-        wd.find_element_by_name("email").click()
-        wd.find_element_by_name("email").clear()
-        wd.find_element_by_name("email").send_keys(Contact.email)
+        self.fill_contact_form(Contact)
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+
+    def fill_contact_form(self, Contact):
+        self.change_field_value("firstname", Contact.firstname)
+        self.change_field_value("lastname", Contact.lastname)
+        self.change_field_value("mobile", Contact.mobile)
+        self.change_field_value("email", Contact.email)
+
+    def change_field_value(self, field_name, text):
+        wd = self.app.wd
+        if text is not None:
+            wd.find_element_by_name(field_name).click()
+            wd.find_element_by_name(field_name).clear()
+            wd.find_element_by_name(field_name).send_keys(text)
 
     def delete_first_contact(self):
         wd = self.app.wd
@@ -27,15 +28,11 @@ class ContactHelper:
         wd.find_element_by_css_selector("[value=Delete]").click()
         wd.switch_to_alert().accept()
 
-    def edit_contact(self, Contact):
+    def modify_first_contact(self, new_contact_data):
         wd = self.app.wd
         wd.find_element_by_css_selector("[title=Edit]").click()
-        wd.find_element_by_name("firstname").clear()
-        wd.find_element_by_name("firstname").send_keys(Contact.firstname)
-        wd.find_element_by_name("lastname").clear()
-        wd.find_element_by_name("lastname").send_keys(Contact.lastname)
+        self.fill_contact_form(new_contact_data)
         wd.find_element_by_css_selector("[value=Update]").click()
-
 
     def open_edit_contact_page(self):
         wd = self.app.wd
