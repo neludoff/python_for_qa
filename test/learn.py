@@ -35,10 +35,12 @@ class Point:
 # print(l1)
 # print(l2)
 
-l = []
+# list comprehansion
+l = [Point(i, i*i) for i in range (-5, 6)]
 
-for i in range (-5, 6):
-    l.append(Point(i, i*i))
+l = list(map(lambda i:Point(i, i*i), range(-5, 6)))
+# for i in range (-5, 6):
+#     l.append(Point(i, i*i))
 
 l2 = []
 

@@ -3,7 +3,12 @@ from model.group import Group
 
 
 def test_add_group(app):
+    old_groups = app.group.get_group_list()
     app.group.create(Group(name="New group", header="Group header", footer="group footer"))
+    new_groups = app.group.get_group_list()
+    old_list = len(old_groups)
+    new_list = len(new_groups)
+    assert len(old_groups) + 1 == len(new_groups)
 
 
 def test_add_empty_group(app):
