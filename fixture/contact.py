@@ -45,14 +45,17 @@ class ContactHelper:
         wd = self.app.wd
         return len(wd.find_elements_by_name("selected[]"))
 
+    contact_cash = None
+
     def get_contact_list(self):
-        wd = self.app.wd
-        self.app.open_home_page()
-        contacts = []
-        for element in wd.find_elements_by_css_selector(('[name=entry]')):
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            contact_data = element.find_elements_by_css_selector("td")
-            lastname = contact_data[1].text
-            firstname = contact_data[2].text
-            contacts.append(Contact(firstname=firstname, lastname=lastname, id=id))
-        return contacts
+        if self.contact_cash is None:
+            wd = self.app.wd
+            self.app.open_home_page()
+            self.contact_cash = []
+            for element in wd.find_elements_by_css_selector(('[name=entry]')):
+                id = element.find_element_by_name("selected[]").get_attribute("value")
+                contact_data = element.find_elements_by_css_selector("td")
+                lastname = contact_data[1].text
+                firstname = contact_data[2].text
+                self.contact_cash.append(Contact(firstname=firstname, lastname=lastname, id=id))
+        return list(self.contact_cash)
