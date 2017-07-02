@@ -10,6 +10,7 @@ class ContactHelper:
         self.open_add_new_page()
         self.fill_contact_form(Contact)
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+        self.contact_cash = None
 
     def fill_contact_form(self, Contact):
         self.change_field_value("firstname", Contact.firstname)
@@ -25,16 +26,29 @@ class ContactHelper:
             wd.find_element_by_name(field_name).send_keys(text)
 
     def delete_first_contact(self):
+        self.delete_contact_by_id(0)
+
+    def delete_contact_by_id(self, index):
         wd = self.app.wd
-        wd.find_element_by_name("selected[]").click()
+        wd.find_elements_by_name("selected[]")[index].click()
         wd.find_element_by_css_selector("[value=Delete]").click()
         wd.switch_to_alert().accept()
+        self.contact_cash = None
 
-    def modify_first_contact(self, new_contact_data):
+    def modify_first_contacr(self, new_contact_data):
+        self.modify_contact_by_id(0, new_contact_data)
+
+
+    def modify_contact_by_id(self, index, new_contact_data):
         wd = self.app.wd
-        wd.find_element_by_css_selector("[title=Edit]").click()
+        self.select_contact_by_index(index)
         self.fill_contact_form(new_contact_data)
         wd.find_element_by_css_selector("[value=Update]").click()
+        self.contact_cash = None
+
+    def select_contact_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_css_selector("[title=Edit]")[index].click()
 
     def open_add_new_page(self):
         wd = self.app.wd
@@ -43,7 +57,8 @@ class ContactHelper:
 
     def count(self):
         wd = self.app.wd
-        return len(wd.find_elements_by_name("selected[]"))
+        self.app.open_home_page()
+        return len(wd.find_elements_by_name("entry"))
 
     contact_cash = None
 
@@ -58,4 +73,5 @@ class ContactHelper:
                 lastname = contact_data[1].text
                 firstname = contact_data[2].text
                 self.contact_cash.append(Contact(firstname=firstname, lastname=lastname, id=id))
+                var = self.contact_cash
         return list(self.contact_cash)
