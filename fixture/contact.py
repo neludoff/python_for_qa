@@ -10,7 +10,7 @@ class ContactHelper:
         self.open_add_new_page()
         self.fill_contact_form(Contact)
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
-        self.contact_cash = None
+        self.contact_cache = None
 
     def fill_contact_form(self, Contact):
         self.change_field_value("firstname", Contact.firstname)
@@ -33,7 +33,7 @@ class ContactHelper:
         wd.find_elements_by_name("selected[]")[index].click()
         wd.find_element_by_css_selector("[value=Delete]").click()
         wd.switch_to_alert().accept()
-        self.contact_cash = None
+        self.contact_cache = None
 
     def modify_first_contacr(self, new_contact_data):
         self.modify_contact_by_id(0, new_contact_data)
@@ -44,7 +44,7 @@ class ContactHelper:
         self.select_contact_by_index(index)
         self.fill_contact_form(new_contact_data)
         wd.find_element_by_css_selector("[value=Update]").click()
-        self.contact_cash = None
+        self.contact_cache = None
 
     def select_contact_by_index(self, index):
         wd = self.app.wd
@@ -60,23 +60,23 @@ class ContactHelper:
         self.app.open_home_page()
         return len(wd.find_elements_by_name("entry"))
 
-    contact_cash = None
+    contact_cache = None
 
     def get_contact_list(self):
-        if self.contact_cash is None:
+        if self.contact_cache is None:
             wd = self.app.wd
             self.app.open_home_page()
-            self.contact_cash = []
+            self.contact_cache = []
             for row in wd.find_elements_by_css_selector(('[name=entry]')):
                 cells = row.find_elements_by_css_selector("td")
                 lastname = cells[1].text
                 firstname = cells[2].text
                 id = cells[0].find_element_by_tag_name("input").get_attribute("value")
-                all_phones = cells[0].text.splitlines()
-                self.contact_cash.append(Contact(firstname=firstname, lastname=lastname, id=id),
-                                         homephone=all_phones[0], mobilephone=all_phones[1],
-                                         workphone=all_phones[2], secondaryphone=all_phones[3])
-        return list(self.contact_cash)
+                all_phones = cells[5].text.splitlines()
+                self.contact_cache.append(Contact(firstname=firstname, lastname=lastname, id=id),
+                                          homephone=all_phones[0], mobilephone=all_phones[1],
+                                          workphone=all_phones[2], secondaryphone=all_phones[3])
+        return list(self.contact_cache)
 
     def open_contact_to_edit_by_index(self, index):
         wd = self.app.wd
