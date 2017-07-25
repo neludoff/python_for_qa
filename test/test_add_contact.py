@@ -11,19 +11,20 @@ def random_string(prefix, maxlen):
 def random_email(prefix, maxlen):
     symbols = string.ascii_letters + string.digits
     return prefix + "".join(random.choice(symbols) for i in range(random.randrange(maxlen))) + "@" + \
-           "".join(random.choice(string.ascii_letters) for i in range(random.randrange(5))) + "." + \
-           "".join(random.choice(string.ascii_letters) for i in range(random.randrange(3)))
+           "".join(random.choice(string.ascii_letters) for i in range(random.randrange(maxlen))) + "." + \
+           "".join(random.choice(string.ascii_letters) for i in range(random.randrange(maxlen)))
 
 def random_phone(maxlen):
-    symbols = string.digits
+    return "".join(random.choice(string.digits) for i in range(random.randrange(maxlen)))
 
 testdata = [Contact(firstname="", lastname="", mobilephone="", secondaryphone="", workphone="",
                  homephone="", email="", email2="", email3="")]+\
            [Contact(firstname=random_string("firstname", 10), lastname=random_string("lastname", 10),
                     mobilephone=random_phone(10), homephone=random_phone(10),
                     workphone=random_phone(10), secondaryphone=random_phone(10),email=random_email("email", 10),
-                    email2=random_email("email2",10), email3=random_email("email3", 10))
-        for i in range (3)
+                    email2=random_email("email2",10), email3=random_email("email3", 10),
+                    all_address_from_home_page=random_string("address",30))
+        for i in range (2)
      ]
 
 @pytest.mark.parametrize("contact", testdata, ids=[repr(x) for x in testdata])
