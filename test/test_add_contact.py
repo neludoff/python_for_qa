@@ -1,9 +1,34 @@
 # -*- coding: utf-8 -*-
 from model.Contact import Contact
+import pytest
+import random
+import string
 
-def test_add_contact(app):
+def random_string(prefix, maxlen):
+    symbols = string.ascii_letters + string.digits + string.punctuation + " "*10
+    return prefix + "".join(random.choice(symbols) for i in range(random.randrange(maxlen)))
+
+def random_email(prefix, maxlen):
+    symbols = string.ascii_letters + string.digits
+    return prefix + "".join(random.choice(symbols) for i in range(random.randrange(maxlen))) + "@" + \
+           "".join(random.choice(string.ascii_letters) for i in range(random.randrange(5))) + "." + \
+           "".join(random.choice(string.ascii_letters) for i in range(random.randrange(3)))
+
+def random_phone(maxlen):
+    symbols = string.digits
+
+testdata = [Contact(firstname="", lastname="", mobilephone="", secondaryphone="", workphone="",
+                 homephone="", email="", email2="", email3="")]+\
+           [Contact(firstname=random_string("firstname", 10), lastname=random_string("lastname", 10),
+                    mobilephone=random_phone(10), homephone=random_phone(10),
+                    workphone=random_phone(10), secondaryphone=random_phone(10),email=random_email("email", 10),
+                    email2=random_email("email2",10), email3=random_email("email3", 10))
+        for i in range (3)
+     ]
+
+@pytest.mark.parametrize("contact", testdata, ids=[repr(x) for x in testdata])
+def test_add_contact(app, contact):
     old_contacts = app.contact.get_contact_list()
-    contact = Contact(firstname ="Steve", lastname ="Jobs", mobilephone="911", email='mark@ivanov.com')
     app.contact.create(contact)
     # app.contact.count() is a hash function
     assert len(old_contacts) + 1 == app.contact.count()
