@@ -20,7 +20,7 @@ def random_phone(maxlen):
 testdata = [Contact(firstname="", lastname="", mobilephone="", secondaryphone="", workphone="",
                  homephone="", email="", email2="", email3="")]+\
            [Contact(firstname=random_string("firstname", 10), lastname=random_string("lastname", 10),
-                    mobilephone=random_phone(10), homephone=random_phone(10),
+                    mobilephone=random_phone(10), homephone=random_phone(10), 
                     workphone=random_phone(10), secondaryphone=random_phone(10),email=random_email("email", 10),
                     email2=random_email("email2",10), email3=random_email("email3", 10),
                     all_address_from_home_page=random_string("address",30))
