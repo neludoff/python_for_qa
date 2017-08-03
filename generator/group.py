@@ -7,14 +7,14 @@ import getopt
 import sys
 
 try:
-    opts, args = getopt(sys.argv[1:], "n:f", ["number of groups", "file"])
+    opts, args = getopt.getopt(sys.argv[1:], "f:n", ["file","number of groups"])
 except getopt.GetoptError as err:
     # print help information and exit:
     getopt.usage()
     sys.exit(2)
 
 n = 5
-f = "/data/groups.json"
+f = '/data/groups.json'
 
 for o, a in opts:
     if 0 == "-n":
@@ -33,5 +33,5 @@ testdata = [Group(name="", header="", footer="")]+ [
 
 file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", f)
 
-with open(file, "w") as f:
-    f.write(json.dumps(testdata, default=lambda x: x.__dict__, indent=2))
+with open(file, "w") as out:
+    out.write(json.dumps(testdata, default=lambda x: x.__dict__, indent=2))
