@@ -52,8 +52,6 @@ class GroupHelper():
         wd = self.app.wd
         wd.find_element_by_css_selector("input[value='%s']" % id).click()
 
-
-
     def select_first_group(self):
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
