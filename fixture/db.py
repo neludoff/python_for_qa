@@ -1,4 +1,4 @@
-import pymysql.cursors
+#import pymysql.cursors
 from model.group import Group
 import mysql.connector
 
@@ -10,7 +10,6 @@ class DbFixture:
         self.user=user
         self.password=password
         # self.connection=pymysql.connect(host=host, database=name, user=user, password=password)
-
         self.connection = mysql.connector.connect(host=host, database=name, user=user, password=password, autocommit = True)
         self.connection.autocommit = True
 
@@ -25,8 +24,6 @@ class DbFixture:
         finally:
             cursor.close()
         return list
-
-
 
     def destroy(self):
         self.connection.close()
