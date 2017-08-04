@@ -1,4 +1,4 @@
-from model.Contact import Contact
+from model.contact import Contact
 from random import randrange
 
 def test_modify_contact(app):
